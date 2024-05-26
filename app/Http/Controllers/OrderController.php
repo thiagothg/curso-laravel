@@ -3,18 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\App\Client;
+use App\Models\App\Order;
 use Illuminate\Http\Request;
 
-class ClientController extends Controller
+class OrderController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $clients = Client::paginate(10);
+        $orders = Order::paginate(10);
 
-        return view('app.client.index', compact('clients'));
+        return view('app.order.index', compact('orders'));
     }
 
     /**
@@ -22,7 +23,9 @@ class ClientController extends Controller
      */
     public function create()
     {
-        return view('app.client.add');
+        $clients = Client::all();
+
+        return view('app.order.add', compact('clients'));
     }
 
     /**
@@ -32,20 +35,19 @@ class ClientController extends Controller
     {
         //validacao
         $regras = [
-            'name' => 'required|min:3|max:40',
+            'client_id' => 'required|exists:clients,id'
         ];
 
         $feedback = [
             'required' => 'O campo :attribute deve ser preenchida',
-            'name.min' => 'O campo nome deve ter no mínimo 3 caracteres',
-            'name.max' => 'O campo nome deve ter no máximo 40 caracteres',
+            'client_id.exists' => 'O campo cliente não existe',
         ];
 
         $request->validate($regras, $feedback);
 
-        Client::create($request->all());
+        Order::create($request->all());
 
-        return redirect()->route('clients.index');
+        return redirect()->route('orders.index');
     }
 
     /**

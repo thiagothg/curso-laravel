@@ -1,14 +1,13 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\App;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Supplier extends Model
+class Client extends Model
 {
     use HasFactory;
-
 
     /**
      * The attributes that are mass assignable.
@@ -17,8 +16,8 @@ class Supplier extends Model
      */
     protected $fillable = [
         'name',
-        // 'site',
-        'uf',
-        'email'
+        'description',
+        'unit_id',
+        'weight'
     ];
 }

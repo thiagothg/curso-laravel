@@ -4,21 +4,24 @@ use App\Http\Controllers\AboutController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\LandingController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Middleware\LogAccessMidleware;
+use App\Models\App\Product;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\App;
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
+    return redirect()->route('site.index');
+    // return Inertia::render('Welcome', [
+    //     'canLogin' => Route::has('login'),
+    //     'canRegister' => Route::has('register'),
+    //     'laravelVersion' => Application::VERSION,
+    //     'phpVersion' => PHP_VERSION,
+    // ]);
 });
 
 Route::post('locale', function () {
@@ -39,8 +42,6 @@ Route::get('about', [AboutController::class, 'index'])->name('site.about');
 Route::get('contact', [ContactController::class, 'index'])->name('site.contact');
 Route::post('contact', [ContactController::class, 'save'])->name('site.contact');
 
-
-// Route::resource('produto', ProdutoController::class);
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
@@ -52,7 +53,7 @@ Route::middleware([
 
     // Route::get()
     Route::prefix('app')->group(function () {
-        Route::get('clients', [ClientController::class, 'index'])->name('app.clients');
+        // Route::get('clients', [ClientController::class, 'index'])->name('app.clients');
 
         Route::get('supliers', [SupplierController::class, 'index'])->name('app.supliers');
         Route::post('supliers/search', [SupplierController::class, 'index'])->name('app.supliers.search');
@@ -62,8 +63,16 @@ Route::middleware([
 
 
 
+        //products
+        Route::resource('products', ProductController::class);
+        Route::resource('clients', ClientController::class);
+        Route::resource('orders', OrderController::class);
+        Route::get('pedido-produto/create/{pedido}', 'OrderController@create')->name('pedido-produto.create');
+        Route::post('pedido-produto/store/{pedido}', 'OrderController@store')->name('pedido-produto.store');
+        Route::delete('pedido-produto.destroy/{pedidoProduto}/{pedido_id}', 'OrderController@destroy')->name('pedido-produto.destroy');
 
-        Route::get('products', [ProductController::class, 'index'])->name('app.products');
+        // Route::resource('order-product', OrderProductController::class);
+
     });
 });
 
