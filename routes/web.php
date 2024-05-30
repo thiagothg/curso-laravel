@@ -1,20 +1,15 @@
 <?php
 
 use App\Http\Controllers\AboutController;
-use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\LandingController;
-use App\Http\Controllers\OrderController;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\SupplierController;
-use App\Http\Middleware\LogAccessMidleware;
-use App\Mail\MensagemTestMail;
-use App\Models\App\Product;
+use App\Http\Controllers\TaskController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Mail;
+
+require __DIR__ . '/auth.php';
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -52,29 +47,11 @@ Route::middleware([
         return Inertia::render('Dashboard');
     })->name('dashboard');
 
-    // Route::get()
-    Route::prefix('app')->group(function () {
-        // Route::get('clients', [ClientController::class, 'index'])->name('app.clients');
+    // Route::get()  Route::resource('products', ProductController::class); 
+    Route::resource('task', TaskController::class);
+    Route::get('tasks/export',  [TaskController::class, 'export'])->name('task.export');
 
-        Route::get('supliers', [SupplierController::class, 'index'])->name('app.supliers');
-        Route::post('supliers/search', [SupplierController::class, 'index'])->name('app.supliers.search');
-        Route::get('supliers/new', [SupplierController::class, 'new'])->name('app.supliers.new');
-        Route::post('supliers/new', [SupplierController::class, 'new'])->name('app.supliers.new');
-        Route::get('supliers/edit/{id}/{msg?}', [SupplierController::class, 'editar'])->name('app.supliers.edit');
-
-
-
-        //products
-        Route::resource('products', ProductController::class);
-        Route::resource('clients', ClientController::class);
-        Route::resource('orders', OrderController::class);
-        Route::get('pedido-produto/create/{pedido}', 'OrderController@create')->name('pedido-produto.create');
-        Route::post('pedido-produto/store/{pedido}', 'OrderController@store')->name('pedido-produto.store');
-        Route::delete('pedido-produto.destroy/{pedidoProduto}/{pedido_id}', 'OrderController@destroy')->name('pedido-produto.destroy');
-
-        // Route::resource('order-product', OrderProductController::class);
-
-    });
+    Route::get('task/exportacao/{extensao}',  [TaskController::class, 'exportacao'])->name('task.exportacao');
 });
 
 //fallback
