@@ -20,4 +20,11 @@ class Client extends Model
         'unit_id',
         'weight'
     ];
+
+    public function rules()
+    {
+        return [
+            'nome' => 'required'
+        ];
+    }
 }

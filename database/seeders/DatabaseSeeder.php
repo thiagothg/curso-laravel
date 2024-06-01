@@ -2,11 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\SiteContact;
-use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Database\Seeders\App\ClientSeeder;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -25,7 +22,12 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $this->call([
-            SiteContactSeeder::class
+            // SiteContactSeeder::class
+            BrandSeeder::class,
+            ModeloSeeder::class,
+            CarSeeder::class,
+            ClientSeeder::class,
+            RentSeeder::class,
         ]);
     }
 }
