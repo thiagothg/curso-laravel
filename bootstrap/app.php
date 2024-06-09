@@ -22,7 +22,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
         //
         $middleware->alias([
-            'log-access', LogAccessMidleware::class
+            'log-access', LogAccessMidleware::class,
         ]);
         // $middleware->append(\App\Http\Middleware\LogAccessMidleware::class);
     })

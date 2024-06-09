@@ -8,4 +8,6 @@ return [
     //
     Barryvdh\DomPDF\ServiceProvider::class,
     Maatwebsite\Excel\ExcelServiceProvider::class,
+
+    Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
 ];
