@@ -2,14 +2,16 @@
 
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\TaskController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
 
-require __DIR__ . '/auth.php';
+// require __DIR__ . '/auth.php';
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -58,3 +60,10 @@ Route::middleware([
 // Route::fallback(function() {
 //     return 'fail!';
 // });
+
+Auth::routes();
+
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/brands', function () {
+    return view('app.brands.brands');
+})->name('brands')->middleware('auth');

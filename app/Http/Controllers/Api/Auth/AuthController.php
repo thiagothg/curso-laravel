@@ -8,17 +8,17 @@ use Illuminate\Routing\Controllers\Middleware;
 
 class AuthController extends Controller
 {
-    /**
-     * Get the middleware that should be assigned to the controller.
-     */
-    public static function middleware(): array
-    {
-        return [
-            // 'auth:api',
-            // new Middleware('log', only: ['index']),
-            // new Middleware('auth:api', except: ['login', 'register']),
-        ];
-    }
+    // /**
+    //  * Get the middleware that should be assigned to the controller.
+    //  */
+    // public static function middleware(): array
+    // {
+    //     return [
+    //         // 'auth:api',
+    //         // new Middleware('log', only: ['index']),
+    //         new Middleware('auth:api', except: ['login', 'register']),
+    //     ];
+    // }
 
     public function login(Request $request)
     {
@@ -83,7 +83,7 @@ class AuthController extends Controller
         # This function is used to make JSON response with new
         # access token of current user
         return response()->json([
-            'access_token' => $token,
+            'token' => $token,
             'token_type' => 'bearer',
             // 'expires_in' => auth()->factory()->getTTL() * 60
         ]);
